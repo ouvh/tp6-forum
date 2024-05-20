@@ -1,11 +1,11 @@
 <template>
   <b-container>
     <b-row>
-      <b-col>
-        <b-card class="mb-3" v-for="discussion in discussions" :key="discussion.id">
+      <b-col  v-for="discussion in discussions" :key="discussion.id">
+        <b-card bg-variant="dark" text-variant="white" title="Card Title" class="mb-3">
           <b-card-title>{{ discussion.title }}</b-card-title>
           <b-card-text>{{ discussion.content }}</b-card-text>
-          <b-button variant="primary" @click="viewDiscussion(discussion.id)">View</b-button>
+          <b-button variant="success" @click="viewDiscussion(discussion.id)">View</b-button>
         </b-card>
       </b-col>
     </b-row>

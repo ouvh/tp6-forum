@@ -1,5 +1,10 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="primary">
+  <b-navbar
+    toggleable="lg"
+    type="dark"
+    variant="success"
+    class="fixed-top-with-margin fixed-top"
+  >
     <b-navbar-brand href="#">Forum App</b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
@@ -11,6 +16,7 @@
         <b-nav-item v-if="!user" to="/login">Login</b-nav-item>
         <b-nav-item v-if="!user" to="/signup">Sign Up</b-nav-item>
         <b-nav-item v-if="user" to="/profile">Profile</b-nav-item>
+        <b-nav-item v-if="user" to="/create-discussion">Create Discussion</b-nav-item>
         <b-nav-item v-if="user" @click="logout">Logout</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
@@ -18,12 +24,12 @@
 </template>
 
 <script>
-import { auth } from '../../firebase';
+import { auth } from "../../firebase";
 
 export default {
   data() {
     return {
-      user: null
+      user: null,
     };
   },
   created() {
@@ -34,7 +40,20 @@ export default {
   methods: {
     logout() {
       auth.signOut();
-    }
-  }
+    },
+  },
 };
 </script>
+
+<style>
+.fixed-top-with-margin {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030;
+  margin-bottom: 1rem;
+}
+body {
+  padding-top: 50px;
+}
+</style>
