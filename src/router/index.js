@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/Home.vue';
-import Login from '../views/Login.vue';
+import Home from '../views/HomePage.vue';
+import Login from '../views/LoginPage.vue';
 import SignUp from '../views/SignUp.vue';
-import Profile from '../views/Profile.vue';
-import Category from '../views/Category.vue';
-import Discussion from '../views/Discussion.vue';
-import EditProfile from '../views/EditProfile.vue';
+import Profile from '../views/ProfilePage.vue';
+import Category from '../views/CategoryPage.vue';
+import Discussion from '../views/DiscussionPage.vue';
+import EditProfile from '../components/User/EditProfile.vue';
 import CreateDiscussion from '../components/Discussion/CreateDiscussion.vue';
 
 const routes = [

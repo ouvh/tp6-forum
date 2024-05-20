@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Navbar from '../components/Layout/Navbar.vue';
+import Navbar from '../components/Layout/NavBar.vue';
 import DiscussionDetail from '../components/Discussion/DiscussionDetail.vue';
 
 export default {

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Navbar from './components/Layout/Navbar.vue';
+import Navbar from './components/Layout/NavBar.vue';
 
 export default {
   components: {
@@ -17,7 +17,7 @@ export default {
 
 <style>
 @import '~bootstrap/dist/css/bootstrap.css';
-@import '~bootstrap-vue/dist/bootstrap-vue.css';
+@import '~bootstrap-vue-3/dist/bootstrap-vue-3.css';
 
 body {
   font-family: 'Helvetica Neue', Arial, sans-serif;
