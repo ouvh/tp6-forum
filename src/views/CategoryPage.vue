@@ -3,9 +3,6 @@
     <Navbar />
     <b-container>
       <b-row>
-        <b-col cols="3">
-          
-        </b-col>
         <b-col>
           <DiscussionList :categoryId="$route.params.id" />
         </b-col>
