@@ -7,9 +7,6 @@
 <script>
 
 export default {
-  components: {
-    
-  }
 };
 </script>
 
@@ -23,6 +20,6 @@ body {
 }
 
 #app {
-  margin-top: 56px; /* Adjust margin to fit navbar */
+  margin-top: 56px; 
 }
 </style>
