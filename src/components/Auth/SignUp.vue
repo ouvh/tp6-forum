@@ -20,19 +20,32 @@
 </template>
 
 <script>
-import { auth } from '../../firebase';
+import {db, auth } from '../../firebase';
 
 export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      name:''
     };
   },
   methods: {
     async signUp() {
       try {
-        await auth.createUserWithEmailAndPassword(this.email, this.password);
+       await auth.createUserWithEmailAndPassword(this.email, this.password);
+
+        try {
+        await db.collection('users').doc(auth.currentUser.uid).set({
+          userid: auth.currentUser.uid,
+          name:this.name
+        },{ merge: true });
+        this.$router.push('/');
+      } catch (error) {
+        alert(error.message);
+      }
+
+
         this.$router.push('/');
       } catch (error) {
         alert(error.message);
