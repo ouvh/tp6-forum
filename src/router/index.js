@@ -12,37 +12,8 @@ const routes = [
     name: 'jobview',
     components: {jobview:jobview}
     
-  },
-  {
-    path: '/Home',
-    name: 'Home',
-    components: {Home:Home},
-  },
-  { path: '/', redirect: '/Home' },
-  {
-    path: '/addBlog',
-    name: 'Add',
-    components: {Add:Add},
-  },
-  {
-    path: '/DeleteBlog',
-    name: 'DeleteJob',
-    components: {DeleteJob:Delete},
-  },
-  {
-    path: '/modify',
-    name: 'modify',
-    components: {modify:Modify},
-  },{
-    path: '/tag/:tagchosen',
-    name: 'tag',
-    components: {Tag:Tagfilter},
-    props:true
-
   }
-
-
-
+  
 ];
 
 
