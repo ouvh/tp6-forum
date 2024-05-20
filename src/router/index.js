@@ -7,6 +7,8 @@ import Category from '../views/CategoryPage.vue';
 import Discussion from '../views/DiscussionPage.vue';
 import EditProfile from '../components/User/EditProfile.vue';
 import CreateDiscussion from '../components/Discussion/CreateDiscussion.vue';
+import ResetPassword from '../components/Auth/ResetPassword.vue'
+
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -16,8 +18,12 @@ const routes = [
   { path: '/edit-profile', name: 'EditProfile', component: EditProfile },
   { path: '/categories', name: 'Category', component: Category },
   { path: '/discussion/:id', name: 'Discussion', component: Discussion },
-  { path: '/create-discussion', name: 'CreateDiscussion', component: CreateDiscussion }
+  { path: '/create-discussion', name: 'CreateDiscussion', component: CreateDiscussion },
+  { path: '/reset-password', name: 'ResetPassword', component: ResetPassword },
+
 ];
+
+
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

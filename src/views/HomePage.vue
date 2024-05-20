@@ -3,9 +3,6 @@
     <Navbar />
     <b-container>
       <b-row>
-        <b-col cols="3">
-          <Sidebar />
-        </b-col>
         <b-col>
           <DiscussionList />
         </b-col>
@@ -16,10 +13,9 @@
 
 <script>
 import Navbar from '../components/Layout/NavBar.vue';
-import Sidebar from '../components/Layout/SideBar.vue';
 import DiscussionList from '../components/Discussion/DiscussionList.vue';
 
 export default {
-  components: { Navbar, Sidebar, DiscussionList }
+  components: { Navbar, DiscussionList }
 };
 </script>
