@@ -40,6 +40,7 @@ export default {
   methods: {
     logout() {
       auth.signOut();
+      this.$router.push('/')
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <b-row>
-      <b-col  v-for="discussion in discussions" :key="discussion.id">
+      <b-col v-for="discussion in discussions" :key="discussion.id" cols="12">
         <b-card bg-variant="dark" text-variant="white" title="Card Title" class="mb-3">
           <b-card-title>{{ discussion.title }}</b-card-title>
           <b-card-text>{{ discussion.content }}</b-card-text>
