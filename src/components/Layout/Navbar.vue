@@ -15,7 +15,7 @@
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
-</template>
+</template> 
 
 <script>
 import { auth } from '../../firebase';
