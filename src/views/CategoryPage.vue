@@ -4,7 +4,7 @@
     <b-container>
       <b-row>
         <b-col>
-          <DiscussionList :categoryId="$route.params.id" />
+          <DiscussionListCategory :categoryId="$route.params.tag" />
         </b-col>
       </b-row>
     </b-container>
@@ -13,9 +13,9 @@
 
 <script>
 import Navbar from '../components/Layout/NavBar.vue';
-import DiscussionList from '../components/Discussion/DiscussionList.vue';
+import DiscussionListCategory from '../components/Discussion/DiscussionListCategory.vue';
 
 export default {
-  components: { Navbar, DiscussionList }
+  components: { Navbar, DiscussionListCategory }
 };
 </script>

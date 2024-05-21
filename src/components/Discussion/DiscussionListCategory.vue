@@ -2,20 +2,30 @@
 
 
   <b-container class="my-3">
-    <b-row class="justify-content-center">
-      <b-col cols="12" md="8" lg="6">
-        <b-input-group>
-          <b-form-input
-            v-model="searchQuery"
-            placeholder="Search..."
-            @keydown="searchPosts"
-          ></b-form-input>
-          <b-input-group-append>
-            <b-button variant="primary" @click="searchPosts">Search</b-button>
-          </b-input-group-append>
-        </b-input-group>
-      </b-col>
-    </b-row>
+    
+            <h2>Search by Tags</h2>
+            <div>
+          <label for="tags-remove-on-delete">Enter new tags separated by space</label>
+              <b-form-tags 
+                input-id="tags-remove-on-delete"
+                :input-attrs="{ 'aria-describedby': 'tags-remove-on-delete-help' }"
+                v-model="tagsfilter"
+                :tag-validator="onTagState"
+                separator=" "
+                placeholder="Enter new tags separated by space"
+                remove-on-delete
+                no-add-on-enter
+
+              ></b-form-tags>
+              <b-form-text id="tags-remove-on-delete-help" class="mt-2">
+                Press <kbd>Backspace</kbd> to remove the last tag entered
+              </b-form-text>
+
+      </div>
+
+
+  
+
   </b-container>
 
 
@@ -44,6 +54,7 @@
                     variant="info"
                     class="mr-1"
                     @click.prevent="    this.$router.push('/categories/' + tag);"
+
                     >{{ tag }}</b-badge
                   >
                 </div>
@@ -54,6 +65,8 @@
       </b-col>
     </b-row>
   </b-container>
+
+
 
    <div v-if="loading" class="loading-page">
 
@@ -74,17 +87,25 @@
 import { db } from '../../firebase';
 
 export default {
-  props: ['categoryId'],
+  props: ['tag'],
   data() {
     return {
       discussions: [],
       loading:true,
       progress: 0,
       searchQuery:'',
-      filteredDiscussions:[]
+      filteredDiscussions:[],
+      tagsfilter:[]
     };
   },
  async created() {
+    if (this.tag){
+        this.tagsfilter = [this.tag]
+    }
+    
+
+
+
   try {
     const query = this.categoryId ? db.collection('discussions').where('category', '==', this.categoryId) : db.collection('discussions');
     const snapshot = await query.orderBy('createdAt', 'desc').get();
@@ -121,26 +142,32 @@ export default {
       }
       return content;
     },
-    searchPosts() {
-    // Convert the query to lowercase for case-insensitive search
-    const lowerCaseQuery = this.searchQuery.toLowerCase();
+    searchRelevantDiscussions(newvalue) {
+        if(this.tagsfilter.length === 0 || newvalue.length ===0){
+            this.filteredDiscussions = this.discussions
+            return
+        }
+    // Convert tags to lowercase for case-insensitive search
+    const lowerCaseTags = this.tagsfilter.map(tag => tag.toLowerCase());
 
-    // Filter the discussions based on the query
-    this.filteredDiscussions = this.discussions.filter(discussion => {
-      // Check if the query is in the title
-      const titleMatch = discussion.title.toLowerCase().includes(lowerCaseQuery);
-
-      // Check if the query is in the content
-      const contentMatch = discussion.content.toLowerCase().includes(lowerCaseQuery);
-
-      // Check if the query is in any of the tags
-      const tagsMatch = discussion.tags ? discussion.tags.some(tag => tag.toLowerCase().includes(lowerCaseQuery)) : false;
-
-      // Return true if any of the above conditions are met
-      return titleMatch || contentMatch || tagsMatch;
+    // Calculate relevance and filter discussions
+    const relevantDiscussions = this.discussions.map(discussion => {
+      const matchingTags = discussion.tags
+        ? discussion.tags.filter(tag => lowerCaseTags.includes(tag.toLowerCase())).length
+        : 0;
+      return { ...discussion, relevance: matchingTags };
     });
-    console.log("kjjj")
+
+    // Sort discussions by relevance (highest relevance first)
+    this.filteredDiscussions = relevantDiscussions
+      .filter(discussion => discussion.relevance > 0)
+      .sort((a, b) => b.relevance - a.relevance);
   }
+  },
+  watch:{
+    tagsfilter:{handler(newvalue){
+        this.searchRelevantDiscussions(newvalue);
+    },deep:true}
   }
 };
 </script>
