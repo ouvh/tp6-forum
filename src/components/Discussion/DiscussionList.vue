@@ -51,7 +51,7 @@
                     :key="index"
                     variant="light"
                     class="tag-badge"
-                    @click.prevent="this.$router.push('/tag/' + tag)"
+                    @click.prevent="this.$router.push('/categories/' + tag)"
                   >
                     {{ tag }}
                   </b-badge>
