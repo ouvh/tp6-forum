@@ -16,7 +16,7 @@ const routes = [
   { path: '/signup', name: 'SignUp', component: SignUp },
   { path: '/profile', name: 'Profile', component: Profile },
   { path: '/edit-profile', name: 'EditProfile', component: EditProfile },
-  { path: '/categories', name: 'Category', component: Category },
+  { path: '/categories/:tag', name: 'Category', component: Category ,props:true},
   { path: '/discussion/:id', name: 'Discussion', component: Discussion },
   { path: '/create-discussion', name: 'CreateDiscussion', component: CreateDiscussion },
   { path: '/reset-password', name: 'ResetPassword', component: ResetPassword },
