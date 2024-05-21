@@ -5,7 +5,7 @@
     variant="success"
     class="fixed-top-with-margin fixed-top"
   >
-    <b-navbar-brand href="#">Forum App</b-navbar-brand>
+    <b-navbar-brand href="/">Forum Zone</b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>

@@ -23,7 +23,7 @@
         :key="discussion.id"
         cols="12"
       >
-        <b-card bg-variant="dark" text-variant="white" class="mb-3">
+        <b-card bg-variant="dark" text-variant="white" class="mb-3 rounded">
           <b-card-header
             class="d-flex justify-content-between align-items-center"
           >
@@ -104,7 +104,7 @@ export default {
         if (userSnapshot.exists) {
           discussion.username = userSnapshot.data().name;
         } else {
-          discussion.username = "Unknown"; 
+          discussion.username = "Unknown";
         }
         this.discussions.push(discussion);
       }
@@ -120,7 +120,7 @@ export default {
       this.$router.push(`/discussion/${id}`);
     },
     truncateContent(content) {
-      const limit = 100; 
+      const limit = 100;
       if (content.length > limit) {
         return content.substring(0, limit) + "...";
       }
@@ -193,7 +193,7 @@ export default {
 }
 
 .tag-badge {
-  margin-right: 10px; 
-  margin-bottom: 10px; 
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 </style>

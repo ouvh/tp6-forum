@@ -27,39 +27,44 @@
         :key="discussion.id"
         cols="12"
       >
-      <b-card bg-variant="dark" text-variant="white" class="mb-3">
-    <b-card-header class="d-flex justify-content-between align-items-center">
-      <h5 class="mb-0">{{ discussion.title }}</h5>
-      <div class="created-by text-light">
-        <b-badge variant="light" class="text-dark font-weight-bold p-2">
-          Posted by: {{ discussion.username }}
-        </b-badge>
-      </div>
-    </b-card-header>
-    <b-card-body>
-      <b-card-text>{{ truncateContent(discussion.content) }}</b-card-text>
-      <b-row class="mt-3">
-        <b-col cols="auto">
-          <b-button variant="secondary" @click="viewDiscussion(discussion.id)">
-            View
-          </b-button>
-        </b-col>
-        <b-col>
-          <div class="tags mt-3">
-            <b-badge
-              v-for="(tag, index) in discussion.tags"
-              :key="index"
-              variant="light"
-              class="tag-badge"
-              @click.prevent="this.$router.push('/tag/' + tag)"
-            >
-              {{ tag }}
-            </b-badge>
-          </div>
-        </b-col>
-      </b-row>
-    </b-card-body>
-  </b-card>
+        <b-card bg-variant="dark" text-variant="white" class="mb-3 rounded">
+          <b-card-header
+            class="d-flex justify-content-between align-items-center"
+          >
+            <h5 class="mb-0">{{ discussion.title }}</h5>
+            <div class="created-by text-light">
+              <b-badge variant="light" class="text-dark font-weight-bold p-2">
+                Posted by: {{ discussion.username }}
+              </b-badge>
+            </div>
+          </b-card-header>
+          <b-card-body>
+            <b-card-text>{{ truncateContent(discussion.content) }}</b-card-text>
+            <b-row class="mt-3">
+              <b-col cols="auto">
+                <b-button
+                  variant="secondary"
+                  @click="viewDiscussion(discussion.id)"
+                >
+                  View
+                </b-button>
+              </b-col>
+              <b-col>
+                <div class="tags mt-3">
+                  <b-badge
+                    v-for="(tag, index) in discussion.tags"
+                    :key="index"
+                    variant="light"
+                    class="tag-badge"
+                    @click.prevent="this.$router.push('/tag/' + tag)"
+                  >
+                    {{ tag }}
+                  </b-badge>
+                </div>
+              </b-col>
+            </b-row>
+          </b-card-body>
+        </b-card>
       </b-col>
     </b-row>
   </b-container>
@@ -109,7 +114,7 @@ export default {
         if (userSnapshot.exists) {
           discussion.username = userSnapshot.data().name;
         } else {
-          discussion.username = "Unknown"; 
+          discussion.username = "Unknown";
         }
         this.discussions.push(discussion);
       }
@@ -126,7 +131,7 @@ export default {
       this.$router.push(`/discussion/${id}`);
     },
     truncateContent(content) {
-      const limit = 100; 
+      const limit = 100;
       if (content.length > limit) {
         return content.substring(0, limit) + "...";
       }
@@ -180,7 +185,7 @@ export default {
   cursor: pointer;
 }
 .created-by {
-  color: #f8f9fa !important; 
+  color: #f8f9fa !important;
 }
 
 .loading-page {
