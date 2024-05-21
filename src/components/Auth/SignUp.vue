@@ -62,13 +62,6 @@ export default {
 
 
 
-        
-
-
-
-
-
-
         try {
           const userSnapshot = await db.collection('users').where('name', '==', this.name).get();
           if (!userSnapshot.empty) {

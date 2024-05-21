@@ -1,7 +1,28 @@
 <template>
+
+
+  <b-container class="my-3">
+    <b-row class="justify-content-center">
+      <b-col cols="12" md="8" lg="6">
+        <b-input-group>
+          <b-form-input
+            v-model="searchQuery"
+            placeholder="Search..."
+            @keydown="searchPosts"
+          ></b-form-input>
+          <b-input-group-append>
+            <b-button variant="primary" @click="searchPosts">Search</b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </b-col>
+    </b-row>
+  </b-container>
+
+
+
   <b-container v-if="!loading">
     <b-row>
-      <b-col v-for="discussion in discussions" :key="discussion.id" cols="12">
+      <b-col v-for="discussion in filteredDiscussions" :key="discussion.id" cols="12">
         <b-card bg-variant="dark" text-variant="white" class="mb-3">
           <b-card-header class="d-flex justify-content-between align-items-center">
             <h5 class="mb-0">{{ discussion.title }}</h5>
@@ -35,6 +56,7 @@
   </b-container>
 
    <div v-if="loading" class="loading-page">
+
     <div class="loading-container">
       <div class="loading-text">Loading, please wait...</div>
       <b-progress :value="progress" max="100" class="loading-bar"></b-progress>
@@ -57,7 +79,9 @@ export default {
     return {
       discussions: [],
       loading:true,
-      progress: 0
+      progress: 0,
+      searchQuery:'',
+      filteredDiscussions:[]
     };
   },
  async created() {
@@ -79,6 +103,7 @@ export default {
       }
       this.discussions.push(discussion);
     }
+    this.filteredDiscussions = this.discussions;
   } catch (error) {
     console.error('Error fetching discussions or users:', error);
   }
@@ -95,7 +120,27 @@ export default {
         return content.substring(0, limit) + '...';
       }
       return content;
-    }
+    },
+    searchPosts() {
+    // Convert the query to lowercase for case-insensitive search
+    const lowerCaseQuery = this.searchQuery.toLowerCase();
+
+    // Filter the discussions based on the query
+    this.filteredDiscussions = this.discussions.filter(discussion => {
+      // Check if the query is in the title
+      const titleMatch = discussion.title.toLowerCase().includes(lowerCaseQuery);
+
+      // Check if the query is in the content
+      const contentMatch = discussion.content.toLowerCase().includes(lowerCaseQuery);
+
+      // Check if the query is in any of the tags
+      const tagsMatch = discussion.tags ? discussion.tags.some(tag => tag.toLowerCase().includes(lowerCaseQuery)) : false;
+
+      // Return true if any of the above conditions are met
+      return titleMatch || contentMatch || tagsMatch;
+    });
+    console.log("kjjj")
+  }
   }
 };
 </script>
