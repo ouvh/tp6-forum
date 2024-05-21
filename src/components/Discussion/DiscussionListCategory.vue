@@ -103,6 +103,7 @@ export default {
         this.tagsfilter = [this.tag]
     }
     
+    
 
 
 
@@ -125,11 +126,14 @@ export default {
       this.discussions.push(discussion);
     }
     this.filteredDiscussions = this.discussions;
+    this.searchRelevantDiscussions(["temp"])
+
   } catch (error) {
     console.error('Error fetching discussions or users:', error);
   }
 
   this.loading = false
+
 }
 ,
   methods: {
@@ -162,9 +166,23 @@ export default {
     this.filteredDiscussions = relevantDiscussions
       .filter(discussion => discussion.relevance > 0)
       .sort((a, b) => b.relevance - a.relevance);
+
+
   }
   },
   watch:{
+    
+    tag(newvalue){
+        if (newvalue){
+        this.tagsfilter = [newvalue]
+       
+    }
+     else{
+                    this.tagsfilter = []
+
+        }
+        
+    },
     tagsfilter:{handler(newvalue){
         this.searchRelevantDiscussions(newvalue);
     },deep:true}

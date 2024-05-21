@@ -4,7 +4,7 @@
     <b-container>
       <b-row>
         <b-col>
-          <DiscussionListCategory :categoryId="$route.params.tag" />
+          <DiscussionListCategory :tag="$route.params.tag" />
         </b-col>
       </b-row>
     </b-container>

@@ -17,6 +17,7 @@ const routes = [
   { path: '/profile', name: 'Profile', component: Profile },
   { path: '/edit-profile', name: 'EditProfile', component: EditProfile },
   { path: '/categories/:tag', name: 'Category', component: Category ,props:true},
+  { path: '/AllCategories', name: 'Allcategories', component: Category ,props:true},
   { path: '/discussion/:id', name: 'Discussion', component: Discussion },
   { path: '/create-discussion', name: 'CreateDiscussion', component: CreateDiscussion },
   { path: '/reset-password', name: 'ResetPassword', component: ResetPassword },
