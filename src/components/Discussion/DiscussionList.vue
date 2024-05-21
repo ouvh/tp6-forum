@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container v-if="!loading">
     <b-row>
       <b-col v-for="discussion in discussions" :key="discussion.id" cols="12">
         <b-card bg-variant="dark" text-variant="white" class="mb-3">
@@ -33,7 +33,20 @@
       </b-col>
     </b-row>
   </b-container>
+
+   <div v-if="loading" class="loading-page">
+    <div class="loading-container">
+      <div class="loading-text">Loading, please wait...</div>
+      <b-progress :value="progress" max="100" class="loading-bar"></b-progress>
+    </div>
+  </div>
+
+
 </template>
+
+
+
+
 
 <script>
 import { db } from '../../firebase';
@@ -42,14 +55,16 @@ export default {
   props: ['categoryId'],
   data() {
     return {
-      discussions: []
+      discussions: [],
+      loading:true,
+      progress: 0
     };
   },
  async created() {
   try {
     const query = this.categoryId ? db.collection('discussions').where('category', '==', this.categoryId) : db.collection('discussions');
     const snapshot = await query.orderBy('createdAt', 'desc').get();
-
+    this.progress += 30
     // Initialize an array to store discussions with user details
     this.discussions = [];
 
@@ -58,7 +73,7 @@ export default {
       const discussion = { id: doc.id, ...doc.data() };
       const userSnapshot = await db.collection('users').doc(discussion.author).get();
       if (userSnapshot.exists) {
-        discussion.username = userSnapshot.data().username;
+        discussion.username = userSnapshot.data().name;
       } else {
         discussion.username = 'Unknown'; // or handle as needed
       }
@@ -67,6 +82,8 @@ export default {
   } catch (error) {
     console.error('Error fetching discussions or users:', error);
   }
+
+  this.loading = false
 }
 ,
   methods: {
@@ -93,6 +110,34 @@ export default {
 }
 .created-by {
   color: #f8f9fa !important; /* Lighter color for better visibility */
+}
+
+.loading-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #343a40;
+  color: #f8f9fa;
+}
+
+.loading-container {
+  text-align: center;
+}
+
+.loading-text {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.loading-bar {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.loading-bar .progress-bar {
+  background-color: #28a745;
 }
 </style>
 

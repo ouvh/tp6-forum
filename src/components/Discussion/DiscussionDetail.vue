@@ -12,7 +12,10 @@
       v-for="reply in replies"
       :key="reply.id"
     >
+
       <b-card-text>{{ reply.content }}</b-card-text>
+      <b-card-text>reply by :{{ reply.username }}</b-card-text>
+
     </b-card>
 
     <b-form @submit.prevent="postReply" class="mt-3">
@@ -37,31 +40,47 @@ export default {
       replyContent: "",
     };
   },
-  async created() {
-    console.log("relies 1 ");
-
+ async created() {
+  try {
     const discussionId = this.$route.params.id;
-    console.log("relies 2 ");
 
+    // Fetch the discussion details
     const discussionDoc = await db
       .collection("discussions")
       .doc(discussionId)
       .get();
     this.discussion = { id: discussionDoc.id, ...discussionDoc.data() };
-    console.log("relies before");
 
+    // Fetch the replies
     const repliesSnapshot = await db
       .collection("replies")
       .where("discussionId", "==", discussionId)
       .orderBy("createdAt", "asc")
       .get();
-    console.log("relies 3 ");
 
-    this.replies = repliesSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-  },
+    // Initialize an array to store replies with user details
+    let temp = [];
+
+    // Fetch user details for each reply
+    for (const doc of repliesSnapshot.docs) {
+      const reply = { id: doc.id, ...doc.data() };
+      const userSnapshot = await db.collection('users').doc(reply.author).get();
+      if (userSnapshot.exists) {
+        reply.username = userSnapshot.data().name;
+      } else {
+        reply.username = 'Unknown'; // or handle as needed
+      }
+      temp.push(reply);
+    }
+    this.replies = temp;
+
+
+  } catch (error) {
+    console.error('Error fetching discussion or replies:', error);
+  }
+
+}
+,
   methods: {
     async postReply() {
       const user = auth.currentUser;
@@ -76,6 +95,12 @@ export default {
           createdAt: new Date(),
         };
         await db.collection("replies").add(newReply);
+        const userSnapshot = await db.collection('users').doc(user.uid).get();
+      if (userSnapshot.exists) {
+        newReply.username = userSnapshot.data().name;
+      } else {
+        newReply.username = 'Unknown'; // or handle as needed
+      } 
         this.replies.push(newReply);
         this.replyContent = "";
       }
