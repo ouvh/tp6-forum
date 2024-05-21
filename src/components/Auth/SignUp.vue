@@ -41,7 +41,7 @@ export default {
           name:this.name
         },{ merge: true });
         this.$router.push('/');
-      } catch (error) {
+      } catch (error) {``
         alert(error.message);
       }
 
