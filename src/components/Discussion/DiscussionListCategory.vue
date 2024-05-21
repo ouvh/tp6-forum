@@ -1,8 +1,8 @@
 <template>
-  <b-container class="my-3">
-    <h2>Search by Tags</h2>
-    <div>
-      
+  <b-container class="my-3 py-4 bg-light rounded text-center">
+    <h2 class="mb-4 text-success font-weight-bold">Search by Tags</h2>
+
+    <div class="input-group mb-3">
       <b-form-tags
         input-id="tags-remove-on-delete"
         :input-attrs="{ 'aria-describedby': 'tags-remove-on-delete-help' }"
@@ -12,11 +12,12 @@
         placeholder="Enter new tags separated by space"
         remove-on-delete
         no-add-on-enter
+        class="flex-grow-1"
       ></b-form-tags>
-      <b-form-text id="tags-remove-on-delete-help" class="mt-2">
-        Press <kbd>Backspace</kbd> to remove the last tag entered
-      </b-form-text>
     </div>
+    <b-form-text id="tags-remove-on-delete-help" class="mx-auto">
+      Press <kbd>Backspace</kbd> to remove the last tag entered
+    </b-form-text>
   </b-container>
 
   <b-container v-if="!loading">
