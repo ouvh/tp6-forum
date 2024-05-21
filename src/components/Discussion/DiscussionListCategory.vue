@@ -27,40 +27,39 @@
         :key="discussion.id"
         cols="12"
       >
-        <b-card bg-variant="dark" text-variant="white" class="mb-3">
-          <b-card-header
-            class="d-flex justify-content-between align-items-center"
-          >
-            <h5 class="mb-0">{{ discussion.title }}</h5>
-            <div class="created-by text-light small">
-              <i class="fas fa-user"></i>Posted by : {{ discussion.username }}
-            </div>
-          </b-card-header>
-          <b-card-body>
-            <b-card-text>{{ truncateContent(discussion.content) }}</b-card-text>
-            <b-row class="mt-3">
-              <b-col cols="auto">
-                <b-button
-                  variant="success"
-                  @click="viewDiscussion(discussion.id)"
-                  >View</b-button
-                >
-              </b-col>
-              <b-col>
-                <div class="tags">
-                  <b-badge
-                    v-for="(tag, index) in discussion.tags"
-                    :key="index"
-                    variant="info"
-                    class="mr-1"
-                    @click.prevent="this.$router.push('/categories/' + tag)"
-                    >{{ tag }}</b-badge
-                  >
-                </div>
-              </b-col>
-            </b-row>
-          </b-card-body>
-        </b-card>
+      <b-card bg-variant="dark" text-variant="white" class="mb-3">
+    <b-card-header class="d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">{{ discussion.title }}</h5>
+      <div class="created-by text-light">
+        <b-badge variant="light" class="text-dark font-weight-bold p-2">
+          Posted by: {{ discussion.username }}
+        </b-badge>
+      </div>
+    </b-card-header>
+    <b-card-body>
+      <b-card-text>{{ truncateContent(discussion.content) }}</b-card-text>
+      <b-row class="mt-3">
+        <b-col cols="auto">
+          <b-button variant="secondary" @click="viewDiscussion(discussion.id)">
+            View
+          </b-button>
+        </b-col>
+        <b-col>
+          <div class="tags mt-3">
+            <b-badge
+              v-for="(tag, index) in discussion.tags"
+              :key="index"
+              variant="light"
+              class="tag-badge"
+              @click.prevent="this.$router.push('/tag/' + tag)"
+            >
+              {{ tag }}
+            </b-badge>
+          </div>
+        </b-col>
+      </b-row>
+    </b-card-body>
+  </b-card>
       </b-col>
     </b-row>
   </b-container>
@@ -99,10 +98,8 @@ export default {
         : db.collection("discussions");
       const snapshot = await query.orderBy("createdAt", "desc").get();
       this.progress += 30;
-      // Initialize an array to store discussions with user details
       this.discussions = [];
 
-      // Fetch user details for each discussion
       for (const doc of snapshot.docs) {
         const discussion = { id: doc.id, ...doc.data() };
         const userSnapshot = await db
@@ -112,7 +109,7 @@ export default {
         if (userSnapshot.exists) {
           discussion.username = userSnapshot.data().name;
         } else {
-          discussion.username = "Unknown"; // or handle as needed
+          discussion.username = "Unknown"; 
         }
         this.discussions.push(discussion);
       }
@@ -129,7 +126,7 @@ export default {
       this.$router.push(`/discussion/${id}`);
     },
     truncateContent(content) {
-      const limit = 100; // Set your character limit here
+      const limit = 100; 
       if (content.length > limit) {
         return content.substring(0, limit) + "...";
       }
@@ -140,10 +137,8 @@ export default {
         this.filteredDiscussions = this.discussions;
         return;
       }
-      // Convert tags to lowercase for case-insensitive search
       const lowerCaseTags = this.tagsfilter.map((tag) => tag.toLowerCase());
 
-      // Calculate relevance and filter discussions
       const relevantDiscussions = this.discussions.map((discussion) => {
         const matchingTags = discussion.tags
           ? discussion.tags.filter((tag) =>
@@ -153,7 +148,6 @@ export default {
         return { ...discussion, relevance: matchingTags };
       });
 
-      // Sort discussions by relevance (highest relevance first)
       this.filteredDiscussions = relevantDiscussions
         .filter((discussion) => discussion.relevance > 0)
         .sort((a, b) => b.relevance - a.relevance);
@@ -186,7 +180,7 @@ export default {
   cursor: pointer;
 }
 .created-by {
-  color: #f8f9fa !important; /* Lighter color for better visibility */
+  color: #f8f9fa !important; 
 }
 
 .loading-page {
@@ -215,5 +209,20 @@ export default {
 
 .loading-bar .progress-bar {
   background-color: #28a745;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+}
+.tag-badge {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.tag-badge:hover {
+  background-color: #ccc;
+  transform: scale(1.1);
 }
 </style>
