@@ -106,6 +106,8 @@ export default {
       this.discussions = [];
 
       for (const doc of snapshot.docs) {
+        this.progress += parseInt((70)/snapshot.docs.length)
+
         const discussion = { id: doc.id, ...doc.data() };
         const userSnapshot = await db
           .collection("users")
